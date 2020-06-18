@@ -133,9 +133,7 @@ Typically, users execute a series of actions that can be viewed as flows. For in
 
 When testing the API, verify that these HTTP requests execute successfully, and that users receive the correct response.  This can be achieved by examining the request headers, status line, and message body.
 
-An effective approach would be using [Loadmill](https://www.loadmill.io/) to test different methods using different parameters in the API test flow as shown below.
-
-![](https://paper-attachments.dropbox.com/s_5F69C49EB0F27E6BA3986898C8AC84EAD54EB4A5AF7BA41D994FB78A5BD18F2F_1591938846318_LOADMILL+API+TEST.png)
+An effective approach would be using [an API testing tool](https://www.loadmill.io/) to test different methods using different parameters in the API test flow as shown below.
 
 After running the API test, Loadmill returns detailed information showing the results for all HTTP requests in the test case.
 
