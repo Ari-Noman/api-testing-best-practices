@@ -23,11 +23,11 @@ After laying a solid foundation in your application development process through 
 - [2. Overview of REST APIs](#2-overview-of-rest-apis)
 - [3. HTTP Methods used in APIs](#3-http-methods-used-in-apis)
 - [4. When should I use API tests?](#4-when-should-i-use-api-tests)
-- [5. How are APIs monitored?](#5-how-are-apis-monitored)
+- [5. What Should I Track About My APIs?](#5-What-Should-I-Track-About-My-APIs?)
   * [5.1 Request Headers](#51-request-headers)
   * [5.2 Authentication](#52-authentication)
 - [6. Best practices](#6-best-practices)
-  * [6.1 Choose a reliable API testing tool](#61-choose-a-reliable-api-testing-tool)
+  * [6.1 Choose the Right API Testing Tool](#61-choose-the-right-api-testing-tool)
   * [6.2 Write clear tests that allow debugging](#62-write-clear-tests-that-allow-debugging)
   * [6.3 Start with API smoke testing](#63-start-with-api-smoke-testing)
   * [6.4 Test the performance of your API continuously](#64-test-the-performance-of-your-api-continuously)
@@ -36,8 +36,8 @@ After laying a solid foundation in your application development process through 
   * [6.7 API Mocking and Virtualization](#67-api-mocking-and-virtualization)
   * [6.8 Remove dependencies and fixed data sources whenever possible](#68-remove-dependencies-and-fixed-data-sources-whenever-possible)
   * [6.9 Include negative tests in your test suite](#69-include-negative-tests-in-your-test-suite)
-  * [6.10 Track all API responses](#610-track-all-api-responses)
-  * [6.11 Content extraction](#611-content-extraction)
+  * [6.10 Content Extration](#610-content-extraction)
+  * [6.11 Track All API Responses](#611-track-all-api-responses)
   * [6.12 Don't neglect security tests](#612-do-not-neglect-security-tests)
   * [6.13 Enforce Service Level Agreements  (SLA)](#613-enforce-service-level-agreements)
 
@@ -105,9 +105,9 @@ Because the API layer connects microservices to each other, or a client to the s
 
 API tests aim to optimize performance and secure communication between different services. They provide higher reliability covering interfaces within the application logic but closer to the user  (though not as UI tests).
 
-## 5. How are APIs monitored?
+## 5. What Should I Track About My APIs?
 
-APIs are monitored using several monitoring and testing tools designed to check a number of things including:
+There are a number of elements that you should analyze when testing APIs. These include: 
 
 -   Performance issues such as high API response time
 -   Reliability issues such as difficulty in connecting or getting API responses
@@ -120,12 +120,132 @@ APIs are monitored using several monitoring and testing tools designed to check 
 -   Multi-threading issues
 -   Security issues
 
-These are just some of the basic elements included in an API test suite. The goal when testing and monitoring API transactions is to validate every component and process involved in data exchange.
+These are just some of the basic elements included in an API test suite. The goal when testing and monitoring API transactions is to validate every component and process involved in data exchange. 
 
 Testing different parameters requires you to configure tests with request headers and authentication methods.
 
-### 5.1 Request Headers
+### 5.1 Headers
 -------------------
+
+The message header provides meta-information about a HPPT request or response. It also contains information about objects sent in the HTTP message body.
+
+All [HTTP headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields) have a generic format that consists of a name, colon, and then field values as shown:
+
+`message-header = field-name ":" [ field-value ]`
+
+There are four main types of message headers, namely:
+
+ **General Headers**
+
+These are applicable for both client request and server response messages
+
+These headers include:
+
+`general-header = Cache-Control`
+
+`              | Connection`
+
+`              | Date`
+
+`              | Transfer-Encoding`
+
+`              | Upgrade`
+
+`              | Pragma`
+
+`              | Trailer`
+
+`              | Via`
+
+`              | Warning`
+
+**Request Headers**
+
+They are used to modify the request message. Some popular request headers include:
+
+`request-header = Accept`
+
+`              | Accept-Charset`
+
+`              | Authorization`
+
+`              | Accept-Encoding`
+
+`              | Accept-Language`
+
+`              | Expect`
+
+`              | From`
+
+`              | Host`
+
+`              | If-Match`
+
+`              | If-Modified-Since`
+
+`              | If-None-Match`
+
+`              | If-Range`
+
+`              | If-Unmodified-Since`
+
+`              | Range`
+
+`              | Max-Forwards`
+
+`              | Proxy-Authorization`
+
+`              | Referer`
+
+`              | User-Agent `
+
+**Response Headers**
+
+They appear just below the response status line and contains a fairly limited set of entities as shown below.
+
+`response-header = Accept-Ranges`
+
+`              | Age`
+
+`              | Location`
+
+`              | ETag`
+
+`              | Proxy-Authenticate`
+
+`              | Server`
+
+`              | Vary`
+
+`              | Retry-After`
+
+`              | WWW-Authenticate`
+
+**Entity Headers**
+
+Entity headers provide meta-data about the content or mesage body. They include
+
+`entity-header = Allow`
+
+`            | Content-Language`
+
+`            | Content-Encoding`
+
+`            | Content-Location`
+
+`            | Content-Length`
+
+`            | Content-Type`
+
+`            | Content-MD5`
+
+`            | Content-Range`
+
+`            | Expires`
+
+`            | Last-Modified`
+
+The HTTP protocol also treats custom headers created and sent by clients as entity headers.
 
 When testing the API, it is important to simulate the real-world transaction by including the request headers that make up the API call. In the request header, you can specify whether the HTTP request is a GET or POST, and if it requires any form of authentication or data caching during the session.
 
@@ -133,7 +253,9 @@ Typically, users execute a series of actions that can be viewed as flows. For in
 
 When testing the API, verify that these HTTP requests execute successfully, and that users receive the correct response.  This can be achieved by examining the request headers, status line, and message body.
 
-An effective approach would be using [an API testing tool](https://www.loadmill.io/) to test different methods using different parameters in the API test flow as shown below.
+An effective approach would be using [Loadmill](https://www.loadmill.io/) to test different methods using different parameters in the API test flow as shown below.
+
+![](https://paper-attachments.dropbox.com/s_5F69C49EB0F27E6BA3986898C8AC84EAD54EB4A5AF7BA41D994FB78A5BD18F2F_1591938846318_LOADMILL+API+TEST.png)
 
 After running the API test, Loadmill returns detailed information showing the results for all HTTP requests in the test case.
 
@@ -152,17 +274,39 @@ Simulating API transactions in a test would therefore involve testing the suppor
 
 The three most common authentication methods used in REST APIs are basic authentication, API keys, and OAuth.
 
-**Basic authentication**
+**Basic** **A****uthentication**
 
 Users send their username or account ID and password in every API call. Here is an example:
 
-``` 
-curl "https://samplewesb1.com/" \
+`curl "https://samplewesb1.com/" \`
 
-     -H "Authorization: Basic dyaXNlcm5hbWU6cGFzc3dvcmQ
-```
+`      -H "Authorization: Basic dyaXNlcm5hbWU6cGFzc3dvcmQ`
 
-The string basic shows that we are using the basic access authentication method while the string `*dyaXNlcm5hbWU6cGFzc3dvcmQ=*` represents a base64-encoding of username: password.
+The string basic shows that we are using the basic access authentication method while the string *dyaXNlcm5hbWU6cGFzc3dvcmQ=* represents a base64-encoding of username: password.
+
+**Cookie-****B****ased Authentication**
+
+In cookie-based authentication, a user enters their credentials and the server verifies that they are correct. Upon verification, it creates a new session for the user.
+
+` {`
+
+`    "session":`
+
+`        {`
+
+`            "name":"example.cookie.name",`
+
+`            "value":"6E244567o899EFTBO87XI567896704A9EB4AE501F"`
+
+`        }`
+
+`}`
+
+It then  places a cookie with the session ID in their browser.
+
+`Set-Cookie: example.cookie.name=6E244567o899EFTBO87XI567896704A9EB4AE501F; Path=/; HttpOnly`
+
+For all subsequent requests to the API, the session ID is checked and if valid, the use request is processes. Upon logging out, the session is destroyed on both the server-side and client-side.
 
 **API Keys**
 
@@ -174,11 +318,9 @@ The API key is a long, unguessable secret string that the API creates and gives 
 
 There is no standard [implementation for API keys](https://www.freecodecamp.org/news/best-practices-for-building-api-keys-97c26eabfea9/), but they are often passed alongside the API authorization header.
 
-```
-curl "https://example.com/" \
+`curl "https://example.com/" \`
 
-     -H "Authorization: t34580942sf4e0b742e66434hasdr0a5ed75f0bjkdbe
-```
+`      -H "Authorization: t34580942sf4e0b742e66434hasdr0a5ed75f0bjkdbe`
 
 **OAuth**
 
@@ -194,14 +336,14 @@ When working with REST APIs, remember that OAuth and Basic authentication method
 
 This section delves into the best practices every tester should follow to write and perform effective API tests.
 
-### 6.1 Choose a reliable API testing tool
+### 6.1 Choose the Right API Testing Tool
 --------------------------------------
 
 Like any other kind of testing, the choice of tool or automation framework used has a substantial impact on the effectiveness and success of your testing efforts. Using a solid API test automation tool brings a wide range of benefits to the testing process, including higher accuracy, reusability, and scalability of tests.
 
-The ideal automation testing tool facilitates smooth measuring, tracking, and testing of the API functionality and performance. Since most allow developers to create complex multi-step testing scenarios, you can easily modify existing test cases or add new tests as the testing requirements change.
+The ideal automation testing tool facilitates smooth measuring, tracking, and testing of the API functionality and performance. Since most allow developers to create complex multi-step testing scenarios, you can easily modify existing test cases or add new tests as the testing requirements change. This is especially important because, as most applications scale, the scope of testing also increases. 
 
-This is especially important because, as most applications scale, the scope of testing also increases.
+Worth a mention is that you should not use tools UI testing tools to test your API. For the best results, consider using a tool that is specially designed for API testing.  Using a great API test tool enhances test development, maintainability, and execution. 
 
 ### 6.2 Write clear tests that allow debugging
 ------------------------------------------
@@ -256,7 +398,15 @@ Treating the API like it is in the consumer environment also gives a clue on per
 
 An API consists of multiple methods and operations, which should be tested individually and collectively by combining multiple API calls. For comprehensive testing, it is always a good idea to list all the mandatory parameters in your API call/request.
 
-This ensures you do not miss out on some critical parameters required in the JSON response. Additionally, perform syntax tests on individual methods or operations to ensure they align with the parameters defined.
+Here are some simple steps you can follow to cover different parameters options and variations that are used by your users.
+
+-   Map out the initial conditions required for API testing
+-   Identify all parameters required and choose values for each
+-   Identify all possible parameter combinations
+-   Decide the most appropriate order for calling your API so it exhibits real-world functionality.
+-   Observe the response/output
+
+Folllowing these steps ensures you do not miss out on some critical parameters required in the request and JSON response. Additionally, perform data-type tests on individual methods or operations to ensure they align with the parameters defined.
 
 ### 6.7 API Mocking and Virtualization
 ----------------------------------
@@ -273,14 +423,14 @@ Virtualization in API testing takes various forms, including:
 
 -   [Stubbing](https://en.wikipedia.org/wiki/Method_stub#:~:text=A%20method%20stub%20or%20simply,to%2Dbe%2Ddeveloped%20code.) --- Stubbing is used for creating an emulation of a SOAP or REST web service API.
 
--   [Mocking](https://en.wikipedia.org/wiki/Mock_object) --- It involves creating mock code objects with the help of frameworks such as Mockito.
+-   [Mocking](https://en.wikipedia.org/wiki/Mock_object) --- It involves creating mock code objects with the help of frameworks such as Mockito. Another useful framework for mocking API requests and responses is [Polly.JS](https://netflix.github.io/pollyjs/#/), which allows users to record, replay, and stub HTTP interactions.
 
 ### 6.8 Remove dependencies and fixed data sources whenever possible
 ----------------------------------------------------------------
 
-API endpoints in a live environment usually rely on internal application components and external elements such as other APIs, third-party services, servers, legacy systems, and so on. When performing API tests, you'll also have to deal with input from these dependencies.
+API endpoints in a live environment usually rely on internal application components and external elements such as other APIs, third-party services, servers, legacy systems, and so on. When performing API tests, you’ll also have to deal with input from these dependencies.
 
-The best approach is usually eliminating these dependencies and fixed data sources whenever possible. When you test some API's with static data collected from other sources, you're not testing the API holistically.
+The best approach is usually eliminating these dependencies and fixed data sources whenever possible. When you test some API’s with static data collected from other sources, you’re not testing the API holistically. 
 
 Instead, you should do away with these dependencies and follow actual user flows. This makes your API tests complete and more efficient.
 
@@ -295,16 +445,8 @@ The expected response in such a negative test is that the API should provide an 
 
 Negative tests help verify the completeness of the application as well as its ability to accommodate user error.
 
-### 6.10 Track all API responses
-----------------------------
 
-API responses are some of the most critical elements that you should track and record during the development process. However, the vast majority of developers and testers tend to discard these responses.
-
-It is vital to track API responses because they provide a benchmark of how it worked during a particular build at the time of testing.
-
-Responses are preserved so that, when the API undergoes a series of changes, it will be easier to examine responses from preceding builds in future. When an error occurs, it will be easier to figure out the modification leading to an error.
-
-### 6.11 Content extraction
+### 6.10 Content extraction
 -----------------------
 
 Content extraction is the process of parsing and extracting content from the response data. Extraction is particularly helpful when you need to generate dynamic content for subsequent requests, for instance, cookie values or access tokens.
@@ -319,60 +461,93 @@ Note that you can use multiple content extractions in a single request.
 
 Here is an example:
 
+`session.get("/tokens", {`
 
-```
-session.get("/tokens", {
-  extraction: {
-    jsonpath: {
-      "accessToken": "authorization.token",
-      "checksum": "authorization.checksum"
-    }
-  }
-});
-```
+`  extraction: {`
+
+`    jsonpath: {`
+
+`      "accessToken": "authorization.token",`
+
+`      "checksum": "authorization.checksum"`
+
+`    }`
+
+`  }`
+
+`});`
 
 The getVar() function can help us use extracted content in subsequent requests:
 
-
-```
-session.get("/ping?token=" + session.getVar("accessToken"));
-```
+` session.get("/ping?token=" + session.getVar("accessToken"));`
 
 Here is another example extraction using Xpath, a method to extract information from an XML document.
 
 Given the response and request options below:
 
+`//This is the Response`
 
-```
-//This is the Response
+`<?xml version="1.0" encoding="UTF-8"?>`
 
-<?xml version="1.0" encoding="UTF-8"?>
-<users>
+`<users>`
 
-<user>
-<firstname>Martin</firstname>
-<lastname>Luther King</lastname>
-<email>martinLking@sampleweb1.com</email>
-</user>
-</users>
+`\
+`
 
-//Request Options 
+`<user>`
 
-session.get("/tokens", {
-extraction: {
-xpath: {
-"email": "/users/user[1]/email"
-}
-}
-}); 
-```
+`<firstname>Martin</firstname>`
+
+`<lastname>Luther King</lastname>`
+
+`<email>martinLking@sampleweb1.com</email>`
+
+`</user>`
+
+`</users>`
+
+`\
+`
+
+`//Request Options `
+
+`\
+`
+
+`session.get("/tokens", {`
+
+`extraction: {`
+
+`xpath: {`
+
+`"email": "/users/user[1]/email"`
+
+`}`
+
+`}`
+
+`}); `
 
 This makes the email a dynamic data source available within the same session.
 
+`session.put("/user?email=" + session.getVar("email"));`
 
-```
-session.put("/user?email=" + session.getVar("email"));
-```
+6.11 Track All API Responses
+----------------------------
+
+API responses are some of the most critical elements that you should track and record during the development process. However, the vast majority of developers and testers tend to discard these responses.
+
+It is vital to track API responses because they provide a benchmark of how it worked during a particular build at the time of testing.
+
+Responses are preserved so that, when the API undergoes a series of changes, it will be easier to examine responses from preceding builds in future. When an error occurs, it will be easier to figure out the modification leading to an error.
+
+During testing, calling the API is not enough. You must assert that the response and values returned are correct. This involves:
+
+-   Validating the HTTP status code -- Verify that the status code returned is correct for each request. For instance, check whether unpermitted requests return 403 FORBIDDEN.
+
+-   Verifying response payload- It involves checking whether the JSON body is valid including correct data types, field names, and values.
+
+-   Verifying response headers, correct application state, and basic performance sanity.
 
 ### 6.12 Do not neglect security tests
 ---------------------------------
