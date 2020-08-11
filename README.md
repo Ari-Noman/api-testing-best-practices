@@ -1,7 +1,5 @@
-# API-Testing-Best-Practices
-The API Testing Best Practices List
-API Testing Best Practices
-==========================
+# API Testing Best Practices
+<!-- ## The API Testing Best Practices List -->
 
 Welcome! Read This First
 
